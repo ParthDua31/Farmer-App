@@ -24,6 +24,7 @@ class _prevBookingsState extends State<prevBookings> {
   String t_name;
   String f_name;
   String t_no;
+  String doc_id;
   dynamic t_path;
   int distance;
   int v;
@@ -36,8 +37,10 @@ class _prevBookingsState extends State<prevBookings> {
 
   void getBookings() async{
     final info= await _firestore.collection('prevBookings').where('f_email', isEqualTo: _auth.currentUser.email).get();
+    print(doc_id);
     for(var x in info.docs){
       setState(() {
+
         t_email=x.data()["t_email"];
         f_email= x.data()["f_email"];
         t_pno=x.data()["t_pno"];

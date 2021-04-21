@@ -70,10 +70,6 @@ class _farmerFinalState extends State<farmerFinal> {
 
   }
 
-  // void updateX(){
-  //    _firestore.collection('variable').doc('3jGgDS2BepSawj6MD9eL').update({'x':(x+1)%n_driver});
-  // }
-
   // void getPrice() async{
   //   print("get price is called");
   //   final Tprice =await _firestore.collection('farmerPrice').where('email',isEqualTo: _auth.currentUser.email).get();
@@ -255,12 +251,45 @@ class _farmerFinalState extends State<farmerFinal> {
 
                             FlatButton(
                               color: Colors.lightBlue,
-                              child: Text("BACK TO MAIN SCREEN",style: TextStyle(
+                              child: Text("CONFIRM",style: TextStyle(
                                 color: Colors.white,
                               ),),
                               onPressed: (){
-                                set_prevBoookings();
-                                Navigator.popAndPushNamed(context, 'farmer');
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text('BOOKING CONFIRMED!!'),
+                                      content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('CONFIRM and GO BACK TO MAIN SCREEN',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),),
+                                            ],
+                                          )
+                                      ),
+                                      actions: <Widget>[
+                                        RaisedButton(
+                                          color: Colors.lightBlue,
+                                          child: Text(
+                                            'CONFIRM', style: TextStyle(
+                                            color: Colors.white,
+                                          ),),
+                                          onPressed:(){
+                                            set_prevBoookings();
+                                            Navigator.popAndPushNamed(context, 'farmer');
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+
+
+
                               },
                             ),
                           ],

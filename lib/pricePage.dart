@@ -447,43 +447,44 @@ class _pricePageState extends State<pricePage> {
                               ),),
                               onPressed: (){
                                 List<dynamic> l = getGraph(c_value);
-                                //
                                 int distance = l[0];
                                 dynamic path= l[1];
                                 String d_city= l[2];
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text('CONFIRM YOUR BOOKING !!'),
-                                      content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('IF YOU WANT TO CONFIRM BOOKING THEN CLICK ON \'CONFIRM\' BUTTON',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                ),),
-                                            ],
-                                          )
-                                      ),
-                                      actions: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.lightBlue,
-                                          child: Text(
-                                            'CONFIRM', style: TextStyle(
-                                            color: Colors.white,
-                                          ),),
-                                          onPressed:(){
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => farmerFinal(f_city: c_value, t_price: t_price,distance: distance,path:path,d_city:d_city)));
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
+
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => farmerFinal(f_city: c_value, t_price: t_price,distance: distance,path:path,d_city:d_city)));
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (context) {
+                                //     return AlertDialog(
+                                //       title: Text('CONFIRM YOUR BOOKING !!'),
+                                //       content: SingleChildScrollView(
+                                //           child: ListBody(
+                                //             children: <Widget>[
+                                //               Text('IF YOU WANT TO CONFIRM BOOKING THEN CLICK ON \'CONFIRM\' BUTTON',
+                                //                 style: TextStyle(
+                                //                   fontSize: 18,
+                                //                   fontWeight: FontWeight.bold,
+                                //                 ),),
+                                //             ],
+                                //           )
+                                //       ),
+                                //       actions: <Widget>[
+                                //         RaisedButton(
+                                //           color: Colors.lightBlue,
+                                //           child: Text(
+                                //             'CONFIRM', style: TextStyle(
+                                //             color: Colors.white,
+                                //           ),),
+                                //           onPressed:(){
+                                //
+                                //           },
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                             ),
                           ],

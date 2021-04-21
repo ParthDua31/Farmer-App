@@ -5,20 +5,45 @@ class driver extends StatefulWidget {
   @override
   _driverState createState() => _driverState();
 }
-
+List<Card> f_book=[];
 class _driverState extends State<driver> {
   String n;
-  String p;
+  int p;
   String a;
   String tn;
   final _auth= FirebaseAuth.instance;
   final _firestore= FirebaseFirestore.instance;
+
+  String f_email;
+  String f_add;
+  String t_email;
+  int t_price;
+  int t_pno;
+  String f_pno;
+  String t_name;
+  String f_name;
+  String t_no;
+  dynamic t_path;
+  int distance;
+  int v;
+
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    f_book.clear();
     getUserData();
+    getBookings();
   }
+
+  // void updateV(){
+  //    _firestore.collection('prevBookings').doc("").update({'v': v==1 ? 0:1});
+  // }
+
+
+
   void getUserData() async{
     final info= await _firestore.collection('driver').where('email', isEqualTo: _auth.currentUser.email).get();
     for(var x in info.docs){
@@ -26,10 +51,115 @@ class _driverState extends State<driver> {
         n=x.data()["name"];
         p=x.data()["pno"];
         a=x.data()["address"];
-        tn=x.data()["truckNo"];
+        tn=x.data()["tno"];
       });
     }
   }
+
+
+  void getBookings() async{
+    final info= await _firestore.collection('prevBookings').where('t_email', isEqualTo: _auth.currentUser.email).get();
+    for(var x in info.docs){
+      setState(() {
+        t_email=x.data()["t_email"];
+        f_email= x.data()["f_email"];
+        t_pno=x.data()["t_pno"];
+        f_pno=x.data()["f_pno"];
+        f_add=x.data()["f_address"];
+        t_price=x.data()["t_price"];
+        t_path=x.data()["t_path"];
+        t_name=x.data()["t_name"];
+        f_name=x.data()["f_name"];
+        t_no=x.data()["t_no"];
+        distance=x.data()["distance"];
+        v=x.data()["v"];
+
+        f_book.add(Card(
+          // color: Colors.white.withAlpha(150),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListBody(
+              children: [
+                Text("Farmer Details: ",style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.blue,
+                ),),
+                SizedBox(height: 10,),
+                Text("$f_name",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                Text("$f_add",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                Text("$f_pno",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                Text("Amount to Recieve: $t_price",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                SizedBox(height: 10,),
+                Text("Truck Driver Details:",style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.blue,
+                ),),
+                SizedBox(height: 15,),
+                Text("Truck Number: $t_no",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                Text("$t_name",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                Text("$t_email",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                Text("$t_pno",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                Text("Total Distance : $distance",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                Text("Path To Follow: $t_path",style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                ),),
+                SizedBox(height: 10,),
+
+                // Row(crossAxisAlignment: CrossAxisAlignment.end,
+                //   children: [Text("Status: ",style: TextStyle(
+                //     fontSize: 25,
+                //     color: Colors.blue,
+                //   ),), v==1 ? Icon(Icons.verified,color: Colors.green,) : Icon(Icons.error,color: Colors.red)  ],),
+              // Center(child: FlatButton(
+              //   disabledColor: Colors.grey,
+              //   child: Text("COMPLETED",style: TextStyle(
+              //   fontSize: 18,
+              //   ),),
+              // onPressed: v==1?  (){
+              //     // updateV();
+              //     f_book.clear();
+              //     getBookings();
+              // } : (){},
+              // ),
+              // )
+              ],
+            ),
+          ),
+        ));
+      });
+    }
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -38,7 +168,7 @@ class _driverState extends State<driver> {
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.local_shipping),text: 'TRUCK DRIVER'),
+              Tab(icon: Icon(Icons.local_shipping),text: 'BOOKINGS'),
               Tab(icon: Icon(Icons.assignment),text: 'GUIDELINES',),
             ],
           ),
@@ -112,52 +242,28 @@ class _driverState extends State<driver> {
           ),
           child: TabBarView(
               children:[ SafeArea(
-                  child:Center(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        height:500,
-                        width:380,
-                        child: Card(
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text("TRUCK NUMBER : $tn",style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue,
-
-                              ),),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              FlatButton(
-                                color: Colors.lightBlue,
-                                child: Text("CHECK BOOKING",style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                  color: Colors.white,
-
-                                ),),
-                                // onPressed: (){
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(builder: (context) => truckPage(n:n,p:p,a:a,tn:tn)
-                                //     ),
-                                //   );
-                                // },
-                              ),
-
-                              SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                child: Container(
+                  // decoration: BoxDecoration(
+                  //     image:DecorationImage(
+                  //       image: AssetImage('images/truck1.jpeg'),
+                  //       fit: BoxFit.cover,
+                  //     )
+                  // ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      // shrinkWrap: true,
+                      itemCount: f_book.length,
+                      itemBuilder: (context,i){
+                        if(f_book[i] != null){
+                          return (
+                              f_book[i]
+                          );
+                        }
+                      },
                     ),
-                  )
+                  ),
+                ),
               ),
                 Column(
                   children: <Widget>[

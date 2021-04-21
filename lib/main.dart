@@ -9,6 +9,7 @@ import 'farmerFinal.dart';
 import 'pricePage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'prevBookings.dart';
+import 'setting.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
           'farmerFinal' :(context)=> farmerFinal(),
           'pricePage' :(context)=> pricePage(),
           'prevBookings': (context)=> prevBookings(),
+          'setting' : (context)=>setting(),
         },
     );
   }
